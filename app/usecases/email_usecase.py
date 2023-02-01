@@ -1,8 +1,8 @@
 from typing import List
 
-from src.repositories import *
-from utils import loger, date_time
-from database import orm
+from app.repositories import *
+from app.utils import loger, date_time
+from app.database import orm
 
 
 def get_pending_email_uesecase():

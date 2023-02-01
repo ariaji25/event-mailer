@@ -1,9 +1,9 @@
 from typing import List
 import time
 
-from src.repositories import queue_repository, email_repository, event_repository, audiences_respository, orm
-from utils import loger
-from services import email_service
+from app.repositories import queue_repository, email_repository, event_repository, audiences_respository, orm
+from app.utils import loger
+from app.services import email_service
 
 
 def add_queue_item_usecase(email: email_repository.Email):

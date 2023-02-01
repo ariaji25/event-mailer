@@ -1,6 +1,6 @@
 import datetime
 
-from config import Config
+from app.config import Config
 
 def log_info(*data: object):
     if Config.debug_mode:

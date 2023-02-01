@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 
 
-from src.use_cases import email_usecase, queue_usecase
+from usecases import email_usecase, queue_usecase
 from utils import loger
 from database import init_database_connection
 
