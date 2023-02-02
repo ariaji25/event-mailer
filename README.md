@@ -28,8 +28,8 @@ The python module that contains the database tables definition with Pony orm and
 
 ### - ```services```
 The python module that contains the extra services for this application. There are two extra service are in the services moduel :
-1. Queue Entry Service, the service that run with cron job for every minutes to check date and time of which email should sent or add to queue to sent later one by one.
-2. Queue Executor Service, the service that run with cron job for every mintues to send email that has been stored to queue with 'PENDING' status. 
+1. Queue Entry Service, the service that run with cron job for every minutes to check date and time of which email should sent. This service will add email to queue to send one by one to every event audience email.
+2. Queue Executor Service, the scheduled service that run  every 5 second to send email that has been stored to queue with 'PENDING' status. 
 
 ### - ```usecases```
 The python module that contains the usecase function for every usecase the need by this flask application. Such as usecase for crate event, get event, create audience, get audiences, create scheduled email and etc.
@@ -49,7 +49,9 @@ To start develop this application, follow steps bellow:
 ## Deployment with docker
 To deploy this application with docker just execute Makefile command
 ```make deploy```
-Make sure you have install docker engine first, and fill out the .env file as like the .env.example file
+Make sure you have install docker engine first, and fill out the .env file as like the .env.example file.
+
+Specialy for ```queue_entry_service``` make sure that the ```.env``` file exist under the service folder as like ```.env.example``` file. There are unknown reason caused the service did not read the env variable that was declared in docker-compose file.
 
 ## Postman Collection
   This is the [postman collection](https://api.postman.com/collections/6659073-5636e8b2-65ca-468e-9897-84c88ad92d49?access_key=PMAT-01GR8XHZ09C2GE6AWTX4PF0AW4) for the Rest Api

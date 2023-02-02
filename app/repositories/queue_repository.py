@@ -1,4 +1,5 @@
 import datetime
+from typing import List
 
 
 from app.config import Config
@@ -28,6 +29,13 @@ def create_queue_item(payload: orm.Json):
     loger.log_info("Created Entry", new_entry.id,
                    new_entry.payload, new_entry.status)
     return new_entry.id
+
+@orm.db_session
+def create_bulk_queue_item(payloads: List[orm.Json]):
+    queue_items = [Queue(payload=p, status=QUEUE_STATUS.PENDING) for p in payloads]
+    orm.commit()
+    return len(queue_items)
+
 
 
 @orm.db_session

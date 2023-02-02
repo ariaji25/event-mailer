@@ -159,5 +159,4 @@ cython_debug/
 #.idea/
 .env
 .mailer_env
-./services/queue_entry_service/.env
-./services/queue_executor_service/.env
+./app/services/queue_executor_service/.env

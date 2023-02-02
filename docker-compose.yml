@@ -22,7 +22,7 @@ services:
     command: >
       sh -c "flask --app /src/app/main run -p 8000 -h 0.0.0.0"
     ports:
-      - 8000:8000
+      - ${APP_PORT}:8000
     networks:
       - mailer-network
     depends_on:
@@ -54,7 +54,7 @@ services:
       SMTP_PW: ${SMTP_PW}
       TZ: ${TZ}
     command: >
-      sh -c "cron -f"
+      python3 -u /src/app/services/queue_executor_service/main.py > /proc/1/fd/1 2>/proc/1/fd/2
     networks:
       - mailer-network
     depends_on:
@@ -74,7 +74,7 @@ services:
       SMTP_PW: ${SMTP_PW}
       TZ: ${TZ}
     command: >
-      sh -c "cron -f"
+      cron -f
     networks:
       - mailer-network
     depends_on:

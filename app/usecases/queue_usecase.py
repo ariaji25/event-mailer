@@ -13,12 +13,13 @@ def add_queue_item_usecase(email: email_repository.Email):
         event_id=event.id)
     recepients: List[audiences_respository.Audience] = [
         a.email for a in audiences]
-    data: orm.Json = {
+
+    payloads = [{
         "subject": email.email_subject,
         "body": email.email_content,
-        "recepients": recepients
-    }
-    item = queue_repository.create_queue_item(payload=data)
+        "recepients": r
+    } for r in recepients]
+    item = queue_repository.create_bulk_queue_item(payloads=payloads)
     return item
 
 
