@@ -5,5 +5,5 @@ env:
 init:
 	pip install -r requierments.txt
 
-deploy:
+run:
 	docker-compose up -d --force-recreate

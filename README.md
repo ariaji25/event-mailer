@@ -37,13 +37,19 @@ To start develop this application, follow steps bellow:
     ```make init```
 3. Start coding...
 
-## Deployment with docker
-To deploy this application with docker just execute Makefile command
-```make deploy```
-Make sure you have install docker engine first, and fill out the .env file as like the .env.example file.
+## Run application with docker
+To run this application with docker, make sure you have install docker engine first, and fill out the ```.env``` file as like the ```.env.example``` file.
 
 Specialy for ```queue_entry_service``` make sure that the ```.env``` file exist under the service folder as like ```.env.example``` file. There are unknown reason caused the service did not read the env variable that was declared in docker-compose file.
 
+Then run Makefile command 
+```make deploy```
+
+
 ## Postman Collection
-  This is the [postman collection](https://api.postman.com/collections/6659073-5636e8b2-65ca-468e-9897-84c88ad92d49?access_key=PMAT-01GR8XHZ09C2GE6AWTX4PF0AW4) for the Rest Api
+This is the [postman collection](https://api.postman.com/collections/6659073-5636e8b2-65ca-468e-9897-84c88ad92d49?access_key=PMAT-01GR8XHZ09C2GE6AWTX4PF0AW4) for the Rest Api
+
+## Notes
+For email sender, use gmail email and create thirdparty app password from your gmail account.
+You can follow [this](https://support.google.com/mail/answer/185833?hl=en) instruction to setup the thirdparty app password
  
