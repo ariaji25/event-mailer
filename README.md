@@ -43,7 +43,7 @@ To run this application with docker, make sure you have install docker engine fi
 Specialy for ```queue_entry_service``` make sure that the ```.env``` file exist under the service folder as like ```.env.example``` file. There are unknown reason caused the service did not read the env variable that was declared in docker-compose file.
 
 Then run Makefile command 
-```make deploy```
+```make run```
 
 
 ## Postman Collection
