@@ -42,7 +42,7 @@ def get_events(page: int = 1):
         events = Event.select().page(page)[:]
         loger.log_info(events)
     except:
-        err = 'Failure'
+        err = 'failed-get-event'
     return events, err
 
 
@@ -51,3 +51,9 @@ def get_event_by_id(id: int):
     event = Event[id]
     loger.log_info(event.id, event.event_name, event.event_date)
     return event
+
+@orm.db_session
+def is_exist(id: int)->bool:
+    is_exist = Event.exists(id=id)
+    loger.log_info(id, "is exist", is_exist)
+    return is_exist

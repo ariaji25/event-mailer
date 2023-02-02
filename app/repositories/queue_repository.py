@@ -23,7 +23,7 @@ class Queue(db.Entity):
 
 @orm.db_session
 def create_queue_item(payload: orm.Json):
-    new_entry = Queue(payload=payload)
+    new_entry = Queue(payload=payload, status=QUEUE_STATUS.PENDING)
     orm.commit()
     loger.log_info("Created Entry", new_entry.id,
                    new_entry.payload, new_entry.status)
@@ -32,9 +32,13 @@ def create_queue_item(payload: orm.Json):
 
 @orm.db_session
 def get_pending_queue_items(limit: int =5):
-    queue_items = Queue.select(lambda q: q.status == QUEUE_STATUS.PENDING).order_by(lambda q: q.created_at).limit(limit)[:]
-    loger.log_info("Queue", queue_items)
-    return queue_items
+    queue_items, err = [],''
+    try:
+        queue_items = Queue.select(lambda q: q.status == QUEUE_STATUS.PENDING).order_by(lambda q: q.created_at).limit(limit)[:]
+        loger.log_info("Queue", queue_items)
+    except:
+        err='failed-get-queue'
+    return queue_items, err
 
 @orm.db_session
 def update_queue_item_status(item_id: id, new_status: int):

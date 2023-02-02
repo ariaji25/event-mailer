@@ -1,0 +1,81 @@
+version: "3.8"
+
+networks:
+  mailer-network:
+    driver: bridge
+
+services:
+  app:
+    container_name: event-mailer-app
+    build: .
+    restart: always
+    env_file:
+      - .env
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_HOST: event-mailer-db
+      SMTP_EMAIL: ${SMTP_EMAIL}
+      SMTP_PW: ${SMTP_PW}
+      TZ: ${TZ}
+    command: >
+      sh -c "flask --app /src/app/main run -p 8000 -h 0.0.0.0"
+    ports:
+      - 8000:8000
+    networks:
+      - mailer-network
+    depends_on:
+      - db
+  db:
+    container_name: event-mailer-db
+    image: postgres:13.4-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: event-mailer
+      POSTGRES_PASSWORD: event-mailer-!
+      PGSTGRES_DATABASE: event-mailer
+    command: postgres -c 'max_connections=5000'
+    ports:
+      - 5432:5432
+    networks:
+      - mailer-network
+  queue-executor:
+    container_name: event-mailer-queue-executor
+    build:
+      dockerfile: ./app/services/queue_executor_service/Dockerfile
+    restart: always
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_HOST: event-mailer-db
+      SMTP_EMAIL: ${SMTP_EMAIL}
+      SMTP_PW: ${SMTP_PW}
+      TZ: ${TZ}
+    command: >
+      sh -c "cron -f"
+    networks:
+      - mailer-network
+    depends_on:
+      - db
+
+  queue-entry:
+    container_name: event-mailer-queue-entry
+    build:
+      dockerfile: ./app/services/queue_entry_service/Dockerfile
+    restart: always
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_HOST: event-mailer-db
+      SMTP_EMAIL: ${SMTP_EMAIL}
+      SMTP_PW: ${SMTP_PW}
+      TZ: ${TZ}
+    command: >
+      sh -c "cron -f"
+    networks:
+      - mailer-network
+    depends_on:
+      - db

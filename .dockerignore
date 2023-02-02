@@ -7,6 +7,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+build/
 develop-eggs/
 dist/
 downloads/
@@ -158,3 +159,5 @@ cython_debug/
 #.idea/
 .env
 .mailer_env
+./services/queue_entry_service/.env
+./services/queue_executor_service/.env

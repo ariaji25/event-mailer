@@ -8,8 +8,11 @@ from app.services import email_service
 
 def add_queue_item_usecase(email: email_repository.Email):
     event: event_repository.Event = email.event_id
+    email_repository.update_email(email.id)
+    audiences, _ = audiences_respository.get_audience_by_event_id(
+        event_id=event.id)
     recepients: List[audiences_respository.Audience] = [
-        a.email for a in audiences_respository.get_audience_by_event_id(event_id=event.id)]
+        a.email for a in audiences]
     data: orm.Json = {
         "subject": email.email_subject,
         "body": email.email_content,
@@ -21,19 +24,20 @@ def add_queue_item_usecase(email: email_repository.Email):
 
 def process_queue_item_usecase(item: queue_repository.Queue):
     loger.log_info("Process queue ", item.id, item.payload)
-    email_service.send_email(item.payload)
-    updated_item = queue_repository.update_queue_item_status(
-        item.id, queue_repository.QUEUE_STATUS.PROCESSED)
-    return updated_item
+
+    def on_finish(success):
+        queue_repository.update_queue_item_status(
+            item.id, (queue_repository.QUEUE_STATUS.PROCESSED if success else queue_repository.QUEUE_STATUS.FAILED))
+
+    email_service.send_email(item.payload, func=on_finish)
 
 
 def process_pending_queue_items_usecase():
-    items: List[queue_repository.Queue] = queue_repository.get_pending_queue_items(limit=1)
-    if len(items) > 0:
-        loger.log_info("Will Process ", items[0].id, " queue items")
-        result = process_queue_item_usecase(items[0])
-        loger.log_info("Process result ", result.id, result.status)
-        time.sleep(1)
+    items, err = queue_repository.get_pending_queue_items(
+        limit=1)
+    if len(items) > 0 and len(err) <= 0:
+        loger.log_info("Will Process ", items[0].id, " queue item")
+        process_queue_item_usecase(items[0])
     else:
         loger.log_info("Empty queue")
     return True

@@ -21,11 +21,19 @@ def created_response(data):
     response.data = data
     return response, status.HTTP_201_CREATED
 
-def notfound_response(keyword):
+def notfound_response(message):
     response = BaseResponseModel(
-        message="Data notfound [{}]".format(keyword),
+        message="Data notfound [{}]".format(message),
         error=True,
         status=status.HTTP_404_NOT_FOUND,
+    )
+    return response, response.status
+
+def badrequest_response(message):
+    response = BaseResponseModel(
+        message="Bad Request [{}]".format(message),
+        error=True,
+        status=status.HTTP_400_BAD_REQUEST,
     )
     return response, response.status
 
