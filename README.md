@@ -1,39 +1,30 @@
 # EVENT MAILER
 
 ## About
-Flask app application that containe a Rest API to create event, register event audiences, and create scheduled email to sent to group of event audiences
+A Flask Rest API application to create event, register event audiences, and create scheduled email to send to group of event audiences email
 
 ## Project Description
 ## - ```app```
-The parent project folder that contains all of the source code
+The parent project folder that contains all of the python source code
 
 ### - ```api```
 The python module that contains the Rest Api endpoints
 ### - ```config```
-The python module that contains application config such as database config, and any environment variablfor the application
+The python module that contains application config such as database config, and any environment variables for the application
 ### - ```controllers```
 The python module that contains the Rest Api Endpoint Controllers
-
 ### - ```database```
 The python module that contains the database connection with Pony orm
-
 ### - ```models```
 The python module that contains the data models thas used by Rest Api for the request and response data
-
 ### - ```repositoris```
 The python module that contains the database tables definition with Pony orm and functions to do transaction with tables
-
-### - ```repositories```
-The python module that contains the database tables definition with Pony orm and functions to do transaction with tables
-
 ### - ```services```
 The python module that contains the extra services for this application. There are two extra service are in the services moduel :
 1. Queue Entry Service, the service that run with cron job for every minutes to check date and time of which email should sent. This service will add email to queue to send one by one to every event audience email.
 2. Queue Executor Service, the scheduled service that run  every 5 second to send email that has been stored to queue with 'PENDING' status. 
-
 ### - ```usecases```
 The python module that contains the usecase function for every usecase the need by this flask application. Such as usecase for crate event, get event, create audience, get audiences, create scheduled email and etc.
-
 ### - ```utils```
 The python module that contains the some helper function such as loger and etc.
 
