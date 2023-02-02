@@ -30,12 +30,12 @@ def get_audiences(query: GetAudienceParam):
     return get_audience_controller(query)
 
 # Email endpoint
-@app.route("/api/scheduled-emails", methods=['POST'])
+@app.route("/api/save_emails", methods=['POST'])
 @validate()
 def create_scheduled_email(body: EmailModel):
     return email_controller.create_scheduled_email_controller(body)
 
-@app.route("/api/scheduled-emails", methods=['GET'])
+@app.route("/api/emails", methods=['GET'])
 @validate()
 def get_scheduled_email(query: GetEmailParam):
     return email_controller.get_scheduled_email_controller(query)

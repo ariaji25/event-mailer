@@ -17,7 +17,7 @@ def add_queue_item_usecase(email: email_repository.Email):
     payloads = [{
         "subject": email.email_subject,
         "body": email.email_content,
-        "recepients": r
+        "recepient": r
     } for r in recepients]
     item = queue_repository.create_bulk_queue_item(payloads=payloads)
     return item
