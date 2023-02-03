@@ -17,7 +17,7 @@ The python module that contains the Rest Api Endpoint Controllers
 The python module that contains the database connection with Pony orm
 ### - ```models```
 The python module that contains the data models thas used by Rest Api for the request and response data
-### - ```repositoris```
+### - ```repositories```
 The python module that contains the database tables definition with Pony orm and functions to do transaction with tables
 ### - ```services```
 The python module that contains the extra services for this application. There are two extra service are in the services moduel :
